@@ -76,6 +76,20 @@ class Vacancy:
         return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: {self.description}"
 
 
+class FileManager(ABC):
+    @abstractmethod
+    def add_vacancy(self, vacancy):
+        pass
+
+    @abstractmethod
+    def get_vacancies(self, criteria):
+        pass
+
+    @abstractmethod
+    def delete_vacancies(self):
+        pass
+
+
 def user_interaction():
     search_query = input("Введите поисковый запрос: ")
 
