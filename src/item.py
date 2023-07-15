@@ -256,11 +256,13 @@ def user_interaction():
 
     criteria = input("Введите критерий для поиска из сохраненных вакансий: ")
     saved_vacancies = json_file_manager.get_vacancies(criteria)
+
     print(f"\nРезультаты поиска из сохраненных вакансий по критерию '{criteria}':")
 
     for vacancy in saved_vacancies:
-        print(vacancy)
-        print()
+        if vacancy.title.lower() == criteria.lower():
+            print(vacancy)
+            print()
 
 
 if __name__ == "__main__":
