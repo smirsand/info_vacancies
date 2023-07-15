@@ -110,7 +110,12 @@ class SuperJobAPI(API):
                 title = item["profession"]
                 link = item["link"]
                 salary = item["payment_from"] if item.get("payment_from") else "Зарплата не указана"
-                description = item.get("description", "")
+                description = " ".join([
+                    "Образование: " + item.get("education", {}).get("title", "") + ".",
+                    "Опыт работы: " + item.get("experience", {}).get("title", "") + ".",
+                    "Место работы: " + item.get("place_of_work", {}).get("title", "") + ".",
+                    "Режим работы: " + item.get("type_of_work", {}).get("title", "") + "."
+                ])
 
                 vacancy = Vacancy(title, link, salary, description)
                 vacancies.append(vacancy)
@@ -136,7 +141,10 @@ class Vacancy:
         """
         Метод для получения строкового представления вакансии.
         """
-        return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: {self.description}"
+        if self.description:
+            return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: {self.description}"
+        else:
+            return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: Описание вакансии отсутствует"
 
 
 class FileManager(ABC):
