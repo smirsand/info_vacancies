@@ -26,7 +26,7 @@ class HeadHunterAPI(API):
     """
 
     def get_vacancies(self, search_query, location=None, page=0, per_page=100, only_with_salary=True,
-                      salary_from=None, salary_to=None):
+                      salary_min=None, salary_max=None):
         """
         Метод для получения вакансий с API HeadHunter
         :param search_query: поисковый запрос
@@ -34,8 +34,8 @@ class HeadHunterAPI(API):
         :param page: страница результатов
         :param per_page: количество результатов на странице
         :param only_with_salary: информация о зарплате в вакансии
-        :param salary_from: минимальная зарплата
-        :param salary_to: максимальная зарплата
+        :param salary_min: минимальная зарплата
+        :param salary_max: максимальная зарплата
         :return: список объектов Vacancy
         """
         url = "https://api.hh.ru/vacancies"
@@ -45,8 +45,8 @@ class HeadHunterAPI(API):
             "page": str(page),
             "per_page": str(per_page),
             "only_with_salary": str(only_with_salary),
-            "salary_from": str(salary_from),
-            "salary_to": str(salary_to)
+            "salary_from": str(salary_min),
+            "salary_to": str(salary_max)
         }
 
         response = requests.get(url, params=params)
@@ -89,12 +89,12 @@ class SuperJobAPI(API):
     Класс для работы с API SuperJob.
     """
 
-    def get_vacancies(self, search_query, salary_from=None, salary_to=None):
+    def get_vacancies(self, search_query, salary_min=None, salary_max=None):
         """
         Метод для получения вакансий с API SuperJob
         :param search_query: поисковый запрос
-        :param salary_from: минимальная зарплата
-        :param salary_to: максимальная зарплата
+        :param salary_min: минимальная зарплата
+        :param salary_max: максимальная зарплата
         :return: список объектов Vacancy
         """
         url = "https://api.superjob.ru/2.33/vacancies"
@@ -229,16 +229,16 @@ def user_interaction():
     """
     search_query = input("Введите поисковый запрос: ")
     location = input("Регион: ")
-    salary_from = input("Минимальная зарплата (если не требуется, оставьте пустым): ")
-    salary_to = input("Максимальная зарплата (если не требуется, оставьте пустым): ")
+    salary_min = input("Минимальная зарплата (если не требуется, оставьте пустым): ")
+    salary_max = input("Максимальная зарплата (если не требуется, оставьте пустым): ")
 
     headhunter_api = HeadHunterAPI()
     superjob_api = SuperJobAPI()
 
     area_id = headhunter_api.get_area_id(location)
-    vacancies_hh = headhunter_api.get_vacancies(search_query, location=area_id, salary_from=salary_from,
-                                                salary_to=salary_to)
-    vacancies_sj = superjob_api.get_vacancies(search_query, salary_from=salary_from, salary_to=salary_to)
+    vacancies_hh = headhunter_api.get_vacancies(search_query, location=area_id, salary_min=salary_min,
+                                                salary_max=salary_max)
+    vacancies_sj = superjob_api.get_vacancies(search_query, salary_min=salary_min, salary_max=salary_max)
     json_file_manager = JsonFileManager("vacancies.json")
     json_file_manager.delete_vacancies()
 
