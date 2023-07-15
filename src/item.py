@@ -1,6 +1,7 @@
 import json
 import os
 from abc import ABC, abstractmethod
+
 import requests
 
 api_key = os.environ.get('API_KEY_SUPER_JOB')
@@ -27,7 +28,7 @@ class HeadHunterAPI(API):
     def get_vacancies(self, search_query, location=None, page=0, per_page=100, only_with_salary=True,
                       salary_from=None, salary_to=None):
         """
-        Метод для получения вакансий с API HeadHunter.
+        Метод для получения вакансий с API HeadHunter
         :param search_query: поисковый запрос
         :param location: регион поиска
         :param page: страница результатов
@@ -90,7 +91,7 @@ class SuperJobAPI(API):
 
     def get_vacancies(self, search_query, salary_from=None, salary_to=None):
         """
-        Метод для получения вакансий с API SuperJob.
+        Метод для получения вакансий с API SuperJob
         :param search_query: поисковый запрос
         :param salary_from: минимальная зарплата
         :param salary_to: максимальная зарплата
