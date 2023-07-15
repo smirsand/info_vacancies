@@ -144,7 +144,8 @@ class Vacancy:
         if self.description:
             return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: {self.description}"
         else:
-            return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\nDescription: Описание вакансии отсутствует"
+            return f"Title: {self.title}\nLink: {self.link}\nSalary: {self.salary}\n" \
+                   f"Description: Описание вакансии отсутствует"
 
 
 class FileManager(ABC):
@@ -235,11 +236,9 @@ def user_interaction():
     superjob_api = SuperJobAPI()
 
     area_id = headhunter_api.get_area_id(location)
-
     vacancies_hh = headhunter_api.get_vacancies(search_query, location=area_id, salary_from=salary_from,
                                                 salary_to=salary_to)
     vacancies_sj = superjob_api.get_vacancies(search_query, salary_from=salary_from, salary_to=salary_to)
-
     json_file_manager = JsonFileManager("vacancies.json")
     json_file_manager.delete_vacancies()
 
@@ -257,8 +256,8 @@ def user_interaction():
 
     criteria = input("Введите критерий для поиска из сохраненных вакансий: ")
     saved_vacancies = json_file_manager.get_vacancies(criteria)
-
     print(f"\nРезультаты поиска из сохраненных вакансий по критерию '{criteria}':")
+
     for vacancy in saved_vacancies:
         print(vacancy)
         print()
